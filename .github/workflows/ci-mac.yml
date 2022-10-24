@@ -9,7 +9,6 @@ on:
     paths-ignore:
       - '.github/workflows/**'
 
-
 jobs:
   build:
     runs-on: macos-12
@@ -17,16 +16,12 @@ jobs:
     steps:       
     - name: Dependencies
       run: |
-           sudo apt-get update
-           sudo apt-get install -y libsamplerate-dev
-           sudo apt-get install -y fftw3-dev
-           sudo apt-get install -y alsa-base
-           sudo apt-get install -y dssi-dev
-           sudo apt-get install -y ladspa-sdk
-           sudo apt-get install -y libjack-dev
-           sudo apt-get install -y liblo-dev
-           sudo apt-get install -y liblrdf-dev
-
+           brew update
+           brew install libsamplerate
+           brew install fftw
+           brew install jack
+           brew install liblo
+           brew install lrdf
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
