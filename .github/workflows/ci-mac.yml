@@ -34,11 +34,12 @@ jobs:
     - name: Configure & Build
       run: |
            ls
+           cat /usr/local/lib/ladspa.h
            export MAKEFLAGS="-j `sysctl -n hw.ncpu`"
            mkdir build
            cd build
            echo "Running cmake"
-           cmake .. -DCMAKE_BUILD_TYPE=Debug
+           cmake .. -DCMAKE_BUILD_TYPE=Debug -I/usr/local/lib
            echo "Building"
            make
            
