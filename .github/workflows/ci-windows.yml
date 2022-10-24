@@ -60,10 +60,10 @@ jobs:
            set MAKEFLAGS="-j 8"
            md build
            cd build
-#           echo "Running Cmake"
-#           cmake .. -DCMAKE_BUILD_TYPE=Debug
-#           echo "Building"
-#           make
+           echo "Running Cmake"
+           cmake .. -DCMAKE_BUILD_TYPE=Debug
+           echo "Building"
+           make
 
 #    - name: Show release directory
 #      working-directory: d:/a/RosegardenW/RosegardenW
