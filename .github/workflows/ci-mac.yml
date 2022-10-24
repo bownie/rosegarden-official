@@ -22,6 +22,7 @@ jobs:
            brew install jack
            brew install liblo
            brew install lrdf
+           sudo curl https://www.ladspa.org/ladspa_sdk/ladspa.h.txt > /usr/local/lib/ladspa.h
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
@@ -33,7 +34,7 @@ jobs:
     - name: Configure & Build
       run: |
            ls
-           export MAKEFLAGS="-j `nproc`"
+           export MAKEFLAGS="-j `sysctl -n hw.ncpu`"
            mkdir build
            cd build
            echo "Running cmake"
