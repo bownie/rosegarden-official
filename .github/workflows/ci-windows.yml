@@ -26,6 +26,8 @@ jobs:
           mingw-w64-x86_64-cmake
           mingw-w64-x86_64-ninja
           mingw-w64-x86_64-msmpi
+          mingw-w64-x86_64-liblo
+          mingw-w64-x86_64-librdf
 
     - name: Put MSYS2_MinGW64 on PATH
       # there is not yet an environment variable for this path from msys2/setup-msys2
