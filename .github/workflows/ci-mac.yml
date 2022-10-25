@@ -31,12 +31,12 @@ jobs:
     - uses: actions/checkout@v1
 
     - name: LADSPA and DSSI install
-      run:
+      run: |
           sudo curl https://www.ladspa.org/ladspa_sdk/ladspa.h.txt > /usr/local/include/ladspa.h
           sudo curl https://dssi.sourceforge.net/dssi.h.txt > /usr/local/include/dssi.h
 
     - name: Liblo needs building
-      run: 
+      run: |
           git clone git://liblo.git.sourceforge.net/gitroot/liblo/liblo
           cd liblo
           mkdir cmake-build
