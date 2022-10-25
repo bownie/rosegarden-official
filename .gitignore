@@ -21,3 +21,5 @@ data/AutoloadStrings.cpp
 data/InstrumentStrings.cpp
 data/QMenuStrings.cpp
 *.user
+src/sound/dssi.h
+src/sound/ladspa.h
