@@ -740,10 +740,10 @@ void ActionData::fillModel()
         m_model->setItem(0, 3, item);
         m_model->item(0, 3)->setEditable(false);
         if (ainfo.global) {
-            QVariant bg(QBrush(Qt::cyan));
+            QVariant bg((QBrush(Qt::cyan)));
             for (int col=0; col<8; col++) {
                 m_model->setData(m_model->index(0, col),
-                                 bg, Qt::BackgroundRole);
+                                 bg, (Qt::BackgroundRole));
             }
         }
 

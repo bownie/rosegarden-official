@@ -17,7 +17,7 @@
 #define RG_LADSPA_PLUGIN_FACTORY_H
 
 #include "PluginFactory.h"
-#include <ladspa.h>
+#include "ladspa.h"
 
 #include <vector>
 #include <map>

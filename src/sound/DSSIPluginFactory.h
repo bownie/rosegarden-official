@@ -17,7 +17,7 @@
 #define RG_DSSI_PLUGIN_FACTORY_H
 
 #include "LADSPAPluginFactory.h"
-#include <dssi.h>
+#include "dssi.h"
 
 namespace Rosegarden
 {

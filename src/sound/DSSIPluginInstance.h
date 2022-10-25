@@ -22,7 +22,7 @@
 #include <QString>
 #include "base/Instrument.h"
 
-#include <dssi.h>
+#include "dssi.h"
 #include "RingBuffer.h"
 #include "RunnablePluginInstance.h"
 #include "Scavenger.h"
