@@ -6,7 +6,7 @@ project(rosegarden)
 
 # Include path for local dssi.h and ladspa.h
 #
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/sound/ /usr/local/include)
+include_directories(/usr/local/include ${CMAKE_CURRENT_SOURCE_DIR}/src/sound/)
 link_directories(/usr/local/lib)
 
 # Version

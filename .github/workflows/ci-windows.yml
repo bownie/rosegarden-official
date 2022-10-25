@@ -60,10 +60,11 @@ jobs:
     - name: LADSPA and DSSI install
       run:
           curl https://www.ladspa.org/ladspa_sdk/ladspa.h.txt > src/sound/ladspa.h;
-          curl https://dssi.sourceforge.net/dssi.h.txt > src/sound/dssi.h;
+          curl https://dssi.sourceforge.net/dssi.h.txt > src/sound/dssi.h
   
     - name: Configure & Build
       run: |
+           dir src/sound
            set MAKEFLAGS="-j 8"
            md build
            cd build
