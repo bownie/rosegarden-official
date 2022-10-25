@@ -543,7 +543,7 @@ DSSIPluginInstance::getProgram(int bank, int program)
             return i->name;
     }
 
-    return QString();s
+    return QString();
 #endif
 }
 
