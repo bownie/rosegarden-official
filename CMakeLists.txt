@@ -4,6 +4,11 @@ cmake_minimum_required(VERSION 3.1)
 # Project name
 project(rosegarden)
 
+# Include path for local dssi.h and ladspa.h
+#
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/sound/ /usr/local/include)
+link_directories(/usr/local/lib)
+
 # Version
 set(ROSEGARDEN_VERSION "22.12")
 set(ROSEGARDEN_CODENAME "Enchantress")
@@ -127,7 +132,7 @@ else()
   set(QT_RCC_EXECUTABLE ${Qt5Core_RCC_EXECUTABLE})
 endif()
 
-find_path(LADSPA_INCLUDE_DIR ladspa.h ${CMAKE_CURRENT_SOURCE_DIR}/src/sound/)
+find_path(LADSPA_INCLUDE_DIR ladspa.h)
 if(NOT LADSPA_INCLUDE_DIR)
     message(FATAL_ERROR "Failed to find required LADSPA header ladspa.h")
 endif()
@@ -143,7 +148,7 @@ if(NOT ALSA_FOUND)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/sound/dssi-compatibility)
 endif()
 
-find_path(DSSI_INCLUDE_DIRS dssi.h ${CMAKE_CURRENT_SOURCE_DIR}/src/sound/)
+find_path(DSSI_INCLUDE_DIRS dssi.h)
 if(NOT DSSI_INCLUDE_DIRS)
     message(FATAL_ERROR "Failed to find required DSSI header dssi.h")
 endif()

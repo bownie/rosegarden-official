@@ -21,7 +21,6 @@ jobs:
            brew install libsamplerate
            brew install fftw
            brew install jack
-           brew install liblo
            brew install lrdf
 
     - name: Install Qt
@@ -35,6 +34,17 @@ jobs:
       run:
           curl https://www.ladspa.org/ladspa_sdk/ladspa.h.txt > src/sound/ladspa.h
           curl https://dssi.sourceforge.net/dssi.h.txt > src/sound/dssi.h
+
+    - name: Liblo needs building
+      run: 
+          git clone git://liblo.git.sourceforge.net/gitroot/liblo/liblo
+          cd liblo
+          mkdir cmake-build
+          cd cmake-build
+          cmake ../cmake
+          make
+          sudo make install
+
         
     - name: Configure & Build
       run: |

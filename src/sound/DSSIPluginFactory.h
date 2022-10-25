@@ -17,7 +17,10 @@
 #define RG_DSSI_PLUGIN_FACTORY_H
 
 #include "LADSPAPluginFactory.h"
+
+#if __linux__
 #include "dssi.h"
+#endif
 
 namespace Rosegarden
 {
@@ -50,8 +53,11 @@ protected:
 
     void discoverPlugin(const QString &soName) override;
 
+#if __linux__
     const LADSPA_Descriptor *getLADSPADescriptor(QString identifier) override;
     virtual const DSSI_Descriptor *getDSSIDescriptor(QString identifier);
+#endif
+
 };
 
 }

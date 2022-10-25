@@ -41,6 +41,7 @@ DSSIPluginFactory::~DSSIPluginFactory()
 void
 DSSIPluginFactory::enumeratePlugins(MappedObjectPropertyList &list)
 {
+#if __linux__
     for (std::vector<QString>::iterator i = m_identifiers.begin();
             i != m_identifiers.end(); ++i) {
 
@@ -90,12 +91,14 @@ DSSIPluginFactory::enumeratePlugins(MappedObjectPropertyList &list)
     }
 
     unloadUnusedLibraries();
+#endif
 }
 
 
 void
 DSSIPluginFactory::populatePluginSlot(QString identifier, MappedPluginSlot &slot)
 {
+#if __linux__
     const LADSPA_Descriptor *descriptor = getLADSPADescriptor(identifier);
     if (!descriptor)
         return ;
@@ -145,6 +148,7 @@ DSSIPluginFactory::populatePluginSlot(QString identifier, MappedPluginSlot &slot
     }
 
     //!!! leak here if the plugin is not instantiated too...?
+#endif
 }
 
 RunnablePluginInstance *
@@ -155,6 +159,7 @@ DSSIPluginFactory::instantiatePlugin(QString identifier,
                                      unsigned int blockSize,
                                      unsigned int channels)
 {
+#if __linux__
     const DSSI_Descriptor *descriptor = getDSSIDescriptor(identifier);
 
     if (descriptor) {
@@ -168,10 +173,11 @@ DSSIPluginFactory::instantiatePlugin(QString identifier,
 
         return instance;
     }
-
+#endif
     return nullptr;
 }
 
+#if __linux__
 
 const DSSI_Descriptor *
 DSSIPluginFactory::getDSSIDescriptor(QString identifier)
@@ -207,10 +213,11 @@ DSSIPluginFactory::getDSSIDescriptor(QString identifier)
     }
 
     std::cerr << "WARNING: DSSIPluginFactory::getDSSIDescriptor: No such plugin as " << label << " in library " << soname << std::endl;
-
     return nullptr;
 }
+#endif
 
+#if __linux__
 const LADSPA_Descriptor *
 DSSIPluginFactory::getLADSPADescriptor(QString identifier)
 {
@@ -220,12 +227,15 @@ DSSIPluginFactory::getLADSPADescriptor(QString identifier)
     else
         return nullptr;
 }
+#endif
+
 
 
 std::vector<QString>
 DSSIPluginFactory::getPluginPath()
 {
     std::vector<QString> pathList;
+#if __linux__
     std::string path;
 
     char *cpath = getenv("DSSI_PATH");
@@ -250,7 +260,7 @@ DSSIPluginFactory::getPluginPath()
     }
 
     pathList.push_back(path.substr(index).c_str());
-
+#endif
     return pathList;
 }
 
@@ -258,6 +268,7 @@ DSSIPluginFactory::getPluginPath()
 std::vector<QString>
 DSSIPluginFactory::getLRDFPath(QString &baseUri)
 {
+#if __linux__
     std::vector<QString> pathList = getPluginPath();
     std::vector<QString> lrdfPaths;
 
@@ -280,12 +291,16 @@ DSSIPluginFactory::getLRDFPath(QString &baseUri)
 #endif
 
     return lrdfPaths;
+#else
+    return std::vector<QString>();
+#endif
 }
 
 
 void
 DSSIPluginFactory::discoverPlugin(const QString &soName)
 {
+#if __linux__
     void *libraryHandle = dlopen( qstrtostr(soName).c_str(), RTLD_LAZY);
 
     if (!libraryHandle) {
@@ -375,6 +390,7 @@ DSSIPluginFactory::discoverPlugin(const QString &soName)
         std::cerr << "WARNING: DSSIPluginFactory::discoverPlugin - can't unload " << libraryHandle << std::endl;
         return ;
     }
+#endif
 }
 
 
