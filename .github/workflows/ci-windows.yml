@@ -10,12 +10,13 @@ on:
   push:
     paths-ignore:
       - '.github/workflows/**'
+      - 'README.*'
 
 jobs:
   build:
     runs-on: windows-latest
     name: CMake build on Windows
-    timeout-minutes: 15
+    #timeout-minutes: 15
 
     steps:
     - uses: msys2/setup-msys2@v2
@@ -25,6 +26,7 @@ jobs:
           mingw-w64-x86_64-cmake
           mingw-w64-x86_64-ninja
           mingw-w64-x86_64-msmpi
+
     - name: Put MSYS2_MinGW64 on PATH
       # there is not yet an environment variable for this path from msys2/setup-msys2
       run: echo "${{ runner.temp }}/msys64/mingw64/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
@@ -55,6 +57,11 @@ jobs:
 
     - uses: actions/checkout@v1
         
+    - name: LADSPA and DSSI install
+      run:
+          curl https://www.ladspa.org/ladspa_sdk/ladspa.h.txt > src/sound/ladspa.h
+          curl https://dssi.sourceforge.net/dssi.h.txt > src/sound/dssi.h
+  
     - name: Configure & Build
       run: |
            set MAKEFLAGS="-j 8"

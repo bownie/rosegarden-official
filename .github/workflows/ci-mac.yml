@@ -8,6 +8,7 @@ on:
   push:
     paths-ignore:
       - '.github/workflows/**'
+      - 'README.*'
 
 jobs:
   build:
@@ -37,7 +38,6 @@ jobs:
         
     - name: Configure & Build
       run: |
-           ls
            export MAKEFLAGS="-j `sysctl -n hw.ncpu`"
            mkdir build
            cd build
