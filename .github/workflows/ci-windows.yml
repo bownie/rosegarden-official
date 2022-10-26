@@ -27,8 +27,8 @@ jobs:
           mingw-w64-x86_64-ninja
           mingw-w64-x86_64-msmpi
           mingw-w64-x86_64-liblo
-          mingw-w64-x86_64-raptor
-
+          mingw-w64-python-rdflib
+          
     - name: Put MSYS2_MinGW64 on PATH
       # there is not yet an environment variable for this path from msys2/setup-msys2
       run: echo "${{ runner.temp }}/msys64/mingw64/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
