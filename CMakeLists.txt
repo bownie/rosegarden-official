@@ -8,9 +8,9 @@ project(rosegarden)
 #
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/sound/)
-else
+else()
     include_directories(/usr/local/include ${CMAKE_CURRENT_SOURCE_DIR}/src/sound/)
-endif
+endif()
 
 link_directories(/usr/local/lib)
 
