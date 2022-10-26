@@ -36,9 +36,8 @@ jobs:
       run: |
           git clone https://github.com/dajobe/raptor.git;
           cd raptor;
-          ./autogen.sh;
-          make;
-          make install;
+          .\autogen.sh;
+          
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
