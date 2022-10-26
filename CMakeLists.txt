@@ -137,7 +137,7 @@ else()
   set(QT_RCC_EXECUTABLE ${Qt5Core_RCC_EXECUTABLE})
 endif()
 
-find_path(LADSPA_INCLUDE_DIR ladspa.h)
+find_path(LADSPA_INCLUDE_DIR ladspa.h ${CMAKE_CURRENT_SOURCE_DIR}/src/sound/)
 if(NOT LADSPA_INCLUDE_DIR)
     message(FATAL_ERROR "Failed to find required LADSPA header ladspa.h")
 endif()
