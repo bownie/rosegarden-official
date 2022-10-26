@@ -6,7 +6,12 @@ project(rosegarden)
 
 # Include path for local dssi.h and ladspa.h
 #
-include_directories(/usr/local/include ${CMAKE_CURRENT_SOURCE_DIR}/src/sound/)
+if CMAKE_SYSTEM_NAME STREQUAL "Windows"
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/sound/)
+else
+    include_directories(/usr/local/include ${CMAKE_CURRENT_SOURCE_DIR}/src/sound/)
+endif
+
 link_directories(/usr/local/lib)
 
 # Version
