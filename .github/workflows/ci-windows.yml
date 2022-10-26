@@ -34,11 +34,11 @@ jobs:
         
     - name: LibRDF
       run: |
-          git clone https://github.com/dajobe/raptor.git
-          cd raptor
-          ./autogen.sh
-          make
-          sudo make install
+          git clone https://github.com/dajobe/raptor.git;
+          cd raptor;
+          ./autogen.sh;
+          make;
+          make install;
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
