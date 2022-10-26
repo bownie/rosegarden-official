@@ -36,7 +36,7 @@ jobs:
       run: |
           git clone https://github.com/dajobe/raptor.git
           cd raptor
-          autogen.sh
+          ./autogen.sh
           make
           sudo make install
 
