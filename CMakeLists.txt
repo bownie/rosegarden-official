@@ -153,7 +153,7 @@ if(NOT ALSA_FOUND)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/sound/dssi-compatibility)
 endif()
 
-find_path(DSSI_INCLUDE_DIRS dssi.h)
+find_path(DSSI_INCLUDE_DIRS dssi.h ${CMAKE_CURRENT_SOURCE_DIR}/src/sound/)
 if(NOT DSSI_INCLUDE_DIRS)
     message(FATAL_ERROR "Failed to find required DSSI header dssi.h")
 endif()
