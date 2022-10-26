@@ -36,7 +36,10 @@ jobs:
       run: |
           git clone https://github.com/dajobe/raptor.git;
           cd raptor;
-          .\autogen.sh;
+          ./autogen.sh;
+          ./configure;
+          make;
+          make install;
           
 
     - name: Install Qt
