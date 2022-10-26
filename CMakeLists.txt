@@ -164,7 +164,9 @@ find_package(X11 REQUIRED) # for XSetErrorHandler & XGetErrorText
 
 pkg_check_modules(LIBLO REQUIRED liblo>=0.7)
 
-pkg_check_modules(LRDF REQUIRED lrdf>=0.2)
+if (NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    pkg_check_modules(LRDF REQUIRED lrdf>=0.2)
+endif()
 
 pkg_check_modules(FFTW3F REQUIRED fftw3f>=3.0.0)
 
