@@ -36,8 +36,9 @@ jobs:
       run: |
           git clone https://github.com/dajobe/raptor.git;
           cd raptor;
-          ./autogen.sh;
-          ./configure;
+          .\autogen.sh;
+          dir;
+          .\configure;
           make;
           make install;
           
