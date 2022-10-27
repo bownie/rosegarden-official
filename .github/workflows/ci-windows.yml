@@ -24,7 +24,6 @@ jobs:
         update: true
         install: >-
           mingw-w64-x86_64-cmake
-          mingw-w64-x86_64-libx11
           mingw-w64-x86_64-ninja
           mingw-w64-x86_64-msmpi
           mingw-w64-x86_64-liblo

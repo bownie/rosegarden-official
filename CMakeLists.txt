@@ -160,7 +160,9 @@ endif()
 
 find_package(ZLIB REQUIRED)
 
-find_package(X11 REQUIRED) # for XSetErrorHandler & XGetErrorText
+if (NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    find_package(X11 REQUIRED) # for XSetErrorHandler & XGetErrorText
+endif()
 
 pkg_check_modules(LIBLO REQUIRED liblo>=0.7)
 
