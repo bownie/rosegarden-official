@@ -23,12 +23,12 @@ jobs:
       with:
         update: true
         install: >-
-          mingw-w64-x86-cmake
-          mingw-w64-x86-ninja
-          mingw-w64-x86-msmpi
-          mingw-w64-x86-liblo
-          mingw-w64-x86-fftw
-          mingw-w64-x86-libsamplerate
+          mingw-w64-x86_32-cmake
+          mingw-w64-x86_32-ninja
+          mingw-w64-x86_32-msmpi
+          mingw-w64-x86_32-liblo
+          mingw-w64-x86_32-fftw
+          mingw-w64-x86_32-libsamplerate
           
     - name: Put MSYS2_MinGW64 on PATH
       # there is not yet an environment variable for this path from msys2/setup-msys2
