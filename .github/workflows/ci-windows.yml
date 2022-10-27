@@ -23,12 +23,12 @@ jobs:
       with:
         update: true
         install: >-
-          mingw-w64-x86_32-cmake
-          mingw-w64-x86_32-ninja
-          mingw-w64-x86_32-msmpi
-          mingw-w64-x86_32-liblo
-          mingw-w64-x86_32-fftw
-          mingw-w64-x86_32-libsamplerate
+          mingw-w64-x86_64-cmake
+          mingw-w64-x86_64-ninja
+          mingw-w64-x86_64-msmpi
+          mingw-w64-x86_64-liblo
+          mingw-w64-x86_64-fftw
+          mingw-w64-x86_64-libsamplerate
           
     - name: Put MSYS2_MinGW64 on PATH
       # there is not yet an environment variable for this path from msys2/setup-msys2
@@ -50,14 +50,13 @@ jobs:
   
     - name: Configure & Build
       run: |
-           dir src/sound
-           set MAKEFLAGS="-j 8"
-           md build
-           cd build
-           echo "Running Cmake"
-           cmake .. -DCMAKE_BUILD_TYPE=Debug
-           echo "Building"
-           make
+           set MAKEFLAGS="-j 8";
+           md build;
+           cd build;
+           echo "Running Cmake";
+           cmake .. -DCMAKE_BUILD_TYPE=Debug;
+           echo "Building";
+           make;
 
 #    - name: Show release directory
 #      working-directory: d:/a/RosegardenW/RosegardenW
