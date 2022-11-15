@@ -19,9 +19,8 @@ jobs:
       run: |
            brew update
            brew install libsamplerate
-           brew install fftw
            brew install jack
-           brew install lrdf
+           brew install autoconf
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
@@ -49,7 +48,7 @@ jobs:
       run: |
           git clone https://github.com/swh/LRDF.git
           cd LRDF
-          ./configure
+          ./autogen.sh
           make
           sudo make install
 
