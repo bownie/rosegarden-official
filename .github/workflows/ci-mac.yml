@@ -44,6 +44,10 @@ jobs:
           make
           sudo make install
 
+    - name : Fix Autotools
+      run: |
+          autoreconf -f -i
+
     - name: Build and Install librdf
       run: |
           git clone https://github.com/swh/LRDF.git
