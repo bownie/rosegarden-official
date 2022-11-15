@@ -1,6 +1,13 @@
 # CMake version required. This must be the very first line, because it sets default policies affecting everything else
 cmake_minimum_required(VERSION 3.1)
 
+
+# Force to build for x86 and use rosetta
+#if (APPLE)
+#    set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE INTERNAL "" FORCE)
+#    message("Building for x86_64 on M1")
+#endif()
+
 # Project name
 project(rosegarden)
 
@@ -160,19 +167,15 @@ endif()
 
 find_package(ZLIB REQUIRED)
 
-if (NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+pkg_check_modules(FFTW3F REQUIRED fftw3f>=3.0.0)
+pkg_check_modules(LRDF REQUIRED lrdf>=0.2)
+pkg_check_modules(LIBLO REQUIRED liblo>=0.7)
+pkg_check_modules(SAMPLERATE REQUIRED samplerate>=0.1.2)
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     find_package(X11 REQUIRED) # for XSetErrorHandler & XGetErrorText
 endif()
 
-pkg_check_modules(LIBLO REQUIRED liblo>=0.7)
-
-if (NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    pkg_check_modules(LRDF REQUIRED lrdf>=0.2)
-endif()
-
-pkg_check_modules(FFTW3F REQUIRED fftw3f>=3.0.0)
-
-pkg_check_modules(SAMPLERATE REQUIRED samplerate>=0.1.2)
 
 # Optional dependencies ---------------------------------------
 
