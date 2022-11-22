@@ -21,7 +21,7 @@
 #ifndef RG_LADSPAPLUGININSTANCE_H
 #define RG_LADSPAPLUGININSTANCE_H
 
-#include <ladspa.h>
+#include "ladspa.h"
 #include "RunnablePluginInstance.h"
 
 namespace Rosegarden
