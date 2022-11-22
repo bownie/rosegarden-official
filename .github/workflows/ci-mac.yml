@@ -19,10 +19,8 @@ jobs:
       run: |
            brew update
            brew install libsamplerate
-           brew install fftw
            brew install jack
-           brew install liblo
-           brew install lrdf
+           brew install autoconf
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
@@ -32,11 +30,51 @@ jobs:
     - uses: actions/checkout@v1
 
     - name: LADSPA and DSSI install
-      run:
-          curl https://www.ladspa.org/ladspa_sdk/ladspa.h.txt > src/sound/ladspa.h
-          curl https://dssi.sourceforge.net/dssi.h.txt > src/sound/dssi.h
+      run: |
+          sudo curl https://www.ladspa.org/ladspa_sdk/ladspa.h.txt > /usr/local/include/ladspa.h
+          sudo curl https://dssi.sourceforge.net/dssi.h.txt > /usr/local/include/dssi.h
+
+
+    - name: Build and Install fftw because brew package doesn't have headers etc
+      run: |
+          wget https://www.fftw.org/fftw-3.3.10.tar.gz
+          tar xvzf fftw-3.3.10.tar.gz
+          cd fftw-3.3.10
+          ./configure CFLAGS="-arch arm64 -arch x86_64 -mmacosx-version-min=11.0"
+          make
+          sudo make install
+
+    - name : Fix Autotools
+      run: |
+          autoreconf -f -i
+
+    - name: Build and Install librdf
+      run: |
+          git clone https://github.com/swh/LRDF.git
+          cd LRDF
+          ./autogen.sh
+          make
+          sudo make install
+
+    - name: Build and Install liblo
+      run: |
+          git clone git://liblo.git.sourceforge.net/gitroot/liblo/liblo
+          cd liblo
+          ./autogen.sh
+          make
+          sudo make install
+
+    - name: Build and Install linsndfile
+      run: |
+          git clone https://github.com/libsndfile/libsndfile.git
+          mkdir libsndfile-build
+          cd libsndfile-build
+          cmake ../libsndfile-build
+          make
+          sudo make install
+
         
-    - name: Configure & Build
+    - name: Configure & Build Rosegarden
       run: |
            export MAKEFLAGS="-j `sysctl -n hw.ncpu`"
            mkdir build

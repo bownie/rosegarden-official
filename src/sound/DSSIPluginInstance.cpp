@@ -39,9 +39,11 @@ namespace Rosegarden
 #define EVENT_BUFFER_SIZE 1023
 
 DSSIPluginInstance::GroupMap DSSIPluginInstance::m_groupMap;
+#if __linux__
 snd_seq_event_t **DSSIPluginInstance::m_groupLocalEventBuffers = nullptr;
 size_t DSSIPluginInstance::m_groupLocalEventBufferCount = 0;
 Scavenger<ScavengerArrayWrapper<snd_seq_event_t *> > DSSIPluginInstance::m_bufferScavenger(2, 10);
+#endif
 
 
 DSSIPluginInstance::DSSIPluginInstance(PluginFactory *factory,
@@ -50,14 +52,21 @@ DSSIPluginInstance::DSSIPluginInstance(PluginFactory *factory,
                                        int position,
                                        unsigned long sampleRate,
                                        size_t blockSize,
-                                       int idealChannelCount,
-                                       const DSSI_Descriptor* descriptor) :
+                                       int idealChannelCount
+#if __linux__
+                                       ,const DSSI_Descriptor* descriptor
+#endif
+                                       ) :
         RunnablePluginInstance(factory, identifier),
         m_instrument(instrument),
         m_position(position),
+#if __linux__
         m_descriptor(descriptor),
+#endif
         m_programCacheValid(false),
+#if __linux__
         m_eventBuffer(EVENT_BUFFER_SIZE),
+#endif
         m_blockSize(blockSize),
         m_idealChannelCount(idealChannelCount),
         m_sampleRate(sampleRate),
@@ -107,13 +116,18 @@ DSSIPluginInstance::DSSIPluginInstance(PluginFactory *factory,
                                        unsigned long sampleRate,
                                        size_t blockSize,
                                        sample_t **inputBuffers,
-                                       sample_t **outputBuffers,
-                                       const DSSI_Descriptor* descriptor) :
+                                       sample_t **outputBuffers
+#if __linux__
+                                       ,const DSSI_Descriptor* descriptor
+#endif
+                                       ) :
         RunnablePluginInstance(factory, identifier),
         m_instrument(instrument),
         m_position(position),
+#if __linux__
         m_descriptor(descriptor),
         m_eventBuffer(EVENT_BUFFER_SIZE),
+#endif
         m_blockSize(blockSize),
         m_inputBuffers(inputBuffers),
         m_outputBuffers(outputBuffers),
@@ -126,6 +140,7 @@ DSSIPluginInstance::DSSIPluginInstance(PluginFactory *factory,
         m_bypassed(false),
         m_grouped(false)
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance::DSSIPluginInstance[buffers supplied](" << identifier << ")"
     << std::endl;
@@ -144,12 +159,14 @@ DSSIPluginInstance::DSSIPluginInstance(PluginFactory *factory,
             initialiseGroupMembership();
         }
     }
+#endif
 }
 
 
 void
 DSSIPluginInstance::init()
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance::init" << std::endl;
 #endif
@@ -200,11 +217,13 @@ DSSIPluginInstance::init()
     }
 
     m_outputBufferCount = std::max(m_idealChannelCount, m_audioPortsOut.size());
+#endif
 }
 
 size_t
 DSSIPluginInstance::getLatency()
 {
+#if __linux__
 #ifdef DEBUG_DSSI 
     //    std::cerr << "DSSIPluginInstance::getLatency(): m_latencyPort " << m_latencyPort << ", m_run " << m_run << std::endl;
 #endif
@@ -225,12 +244,14 @@ DSSIPluginInstance::getLatency()
 
         return (size_t)(*m_latencyPort + 0.1);
     }
+#endif
     return 0;
 }
 
 void
 DSSIPluginInstance::silence()
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance::silence: m_run " << m_run << ", m_runSinceReset " << m_runSinceReset << std::endl;
 #endif
@@ -243,21 +264,25 @@ DSSIPluginInstance::silence()
         activate();
     }
     m_runSinceReset = false;
+#endif
 }
 
 void
 DSSIPluginInstance::discardEvents()
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance::discardEvents" << std::endl;
 #endif
 
     m_eventBuffer.reset();
+#endif
 }
 
 void
 DSSIPluginInstance::setIdealChannelCount(size_t channels)
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance::setIdealChannelCount: channel count "
     << channels << " (was " << m_idealChannelCount << ")" << std::endl;
@@ -296,20 +321,24 @@ DSSIPluginInstance::setIdealChannelCount(size_t channels)
     if (m_instanceHandle != nullptr) {
         activate();
     }
+#endif
 }
 
 void
 DSSIPluginInstance::detachFromGroup()
 {
+#if __linux__
     if (!m_grouped)
         return ;
     m_groupMap[m_identifier].erase(this);
     m_grouped = false;
+#endif
 }
 
 void
 DSSIPluginInstance::initialiseGroupMembership()
 {
+#if __linux__
     if (!m_descriptor->run_multiple_synths) {
         m_grouped = false;
         return ;
@@ -343,12 +372,13 @@ DSSIPluginInstance::initialiseGroupMembership()
 
     m_grouped = true;
     m_groupMap[m_identifier].insert(this);
+#endif
 }
 
 DSSIPluginInstance::~DSSIPluginInstance()
 {
 //    std::cerr << "DSSIPluginInstance::~DSSIPluginInstance" << std::endl;
-
+#if __linux__
     detachFromGroup();
 
     if (m_instanceHandle != nullptr) {
@@ -380,12 +410,14 @@ DSSIPluginInstance::~DSSIPluginInstance()
 
     m_audioPortsIn.clear();
     m_audioPortsOut.clear();
+#endif
 }
 
 
 void
 DSSIPluginInstance::instantiate(unsigned long sampleRate)
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cout << "DSSIPluginInstance::instantiate - plugin unique id = "
     << m_descriptor->LADSPA_Plugin->UniqueID << std::endl;
@@ -426,11 +458,13 @@ DSSIPluginInstance::instantiate(unsigned long sampleRate)
             }
         }
     }
+#endif
 }
 
 void
 DSSIPluginInstance::checkProgramCache()
 {
+#if __linux__
     if (m_programCacheValid)
         return ;
     m_cachedPrograms.clear();
@@ -461,18 +495,20 @@ DSSIPluginInstance::checkProgramCache()
 #endif
 
     m_programCacheValid = true;
+#endif
 }
 
 QStringList
 DSSIPluginInstance::getPrograms()
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance::getPrograms" << std::endl;
 #endif
-
     if (!m_descriptor)
+#endif
         return QStringList();
-
+#if __linux__
     checkProgramCache();
 
     QStringList programs;
@@ -483,18 +519,22 @@ DSSIPluginInstance::getPrograms()
     }
 
     return programs;
+#endif
 }
 
 QString
 DSSIPluginInstance::getProgram(int bank, int program)
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance::getProgram(" << bank << "," << program << ")" << std::endl;
 #endif
 
     if (!m_descriptor)
+#endif
         return QString();
 
+#if __linux__
     checkProgramCache();
 
     for (std::vector<ProgramDescriptor>::iterator i = m_cachedPrograms.begin();
@@ -504,11 +544,13 @@ DSSIPluginInstance::getProgram(int bank, int program)
     }
 
     return QString();
+#endif
 }
 
 unsigned long
 DSSIPluginInstance::getProgram(QString name)
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance::getProgram(" << name << ")" << std::endl;
 #endif
@@ -528,7 +570,7 @@ DSSIPluginInstance::getProgram(QString name)
             return rv;
         }
     }
-
+#endif
     return 0;
 }
 
@@ -547,6 +589,7 @@ DSSIPluginInstance::selectProgram(QString program)
 void
 DSSIPluginInstance::selectProgramAux(QString program, bool backupPortValues)
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance[" << this << "]::selectProgram(" << program << ", " << backupPortValues << ")" << std::endl;
 #endif
@@ -600,11 +643,13 @@ DSSIPluginInstance::selectProgramAux(QString program, bool backupPortValues)
             m_portChangedSinceProgramChange[i] = false;
         }
     }
+#endif
 }
 
 void
 DSSIPluginInstance::activate()
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance[" << this << "]::activate" << std::endl;
 #endif
@@ -640,11 +685,13 @@ DSSIPluginInstance::activate()
             }
         }
     }
+#endif
 }
 
 void
 DSSIPluginInstance::connectPorts()
 {
+#if __linux__
     if (!m_descriptor || !m_descriptor->LADSPA_Plugin->connect_port)
         return ;
 #ifdef DEBUG_DSSI
@@ -688,11 +735,13 @@ DSSIPluginInstance::connectPorts()
          m_controlPortsOut[i].first,
          m_controlPortsOut[i].second);
     }
+#endif
 }
 
 void
 DSSIPluginInstance::setPortValue(unsigned int portNumber, float value)
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance[" << this << "]::setPortValue(" << portNumber << ") to " << value << std::endl;
 #endif
@@ -713,11 +762,13 @@ DSSIPluginInstance::setPortValue(unsigned int portNumber, float value)
             m_portChangedSinceProgramChange[i] = true;
         }
     }
+#endif
 }
 
 void
 DSSIPluginInstance::setPortValueFromController(unsigned int port, int cv)
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance::setPortValueFromController(" << port << ") to " << cv << std::endl;
 #endif
@@ -748,11 +799,13 @@ DSSIPluginInstance::setPortValueFromController(unsigned int port, int cv)
     }
 
     setPortValue(port, value);
+#endif
 }
 
 float
 DSSIPluginInstance::getPortValue(unsigned int portNumber)
 {
+#if __linux__
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance::getPortValue(" << portNumber << ")" << std::endl;
 #endif
@@ -762,7 +815,7 @@ DSSIPluginInstance::getPortValue(unsigned int portNumber)
             return (*m_controlPortsIn[i].second);
         }
     }
-
+#endif
     return 0.0;
 }
 
@@ -770,6 +823,7 @@ QString
 DSSIPluginInstance::configure(QString key,
                               QString value)
 {
+#if __linux__
     if (!m_descriptor || !m_descriptor->configure)
         return QString();
 
@@ -777,10 +831,8 @@ DSSIPluginInstance::configure(QString key,
 #ifdef DSSI_PROJECT_DIRECTORY_KEY
         key = DSSI_PROJECT_DIRECTORY_KEY;
 #else
-
         return QString();
 #endif
-
     }
 
 
@@ -814,12 +866,16 @@ DSSIPluginInstance::configure(QString key,
     }
 
     return qm;
+#else
+    return QString();
+#endif
 }
 
 void
 DSSIPluginInstance::sendEvent(const RealTime &eventTime,
                               const void *e)
 {
+#if __linux__
     snd_seq_event_t *event = (snd_seq_event_t *)e;
 #ifdef DEBUG_DSSI_PROCESS
 
@@ -835,8 +891,10 @@ DSSIPluginInstance::sendEvent(const RealTime &eventTime,
     ev.data.note.channel = 0;
 
     m_eventBuffer.write(&ev, 1);
+#endif
 }
 
+#if __linux
 bool
 DSSIPluginInstance::handleController(snd_seq_event_t *ev)
 {
@@ -867,10 +925,12 @@ DSSIPluginInstance::handleController(snd_seq_event_t *ev)
 
     return false;
 }
+#endif
 
 void
 DSSIPluginInstance::run(const RealTime &blockTime)
 {
+#if __linux
     static snd_seq_event_t localEventBuffer[EVENT_BUFFER_SIZE];
     int evCount = 0;
     unsigned int evDeferred = 0;
@@ -1044,11 +1104,13 @@ done:
     m_lastRunTime = blockTime;
     m_run = true;
     m_runSinceReset = true;
+#endif
 }
 
 void
 DSSIPluginInstance::runGrouped(const RealTime &blockTime)
 {
+#if __linux
     // If something else in our group has just been called for this
     // block time (but we haven't) then we should just write out the
     // results and return; if we have just been called for this block
@@ -1183,12 +1245,14 @@ DSSIPluginInstance::runGrouped(const RealTime &blockTime)
                                       m_blockSize,
                                       m_groupLocalEventBuffers,
                                       counts);
+#endif
 }
 
 
 void
 DSSIPluginInstance::deactivate()
 {
+#if __linux
 #ifdef DEBUG_DSSI
     std::cerr << "DSSIPluginInstance::deactivate " << m_identifier << std::endl;
 #endif
@@ -1232,6 +1296,7 @@ DSSIPluginInstance::cleanup()
 #ifdef DEBUG_DSSI
 
     std::cerr << "DSSIPluginInstance::cleanup " << m_identifier << " done" << std::endl;
+#endif
 #endif
 }
 

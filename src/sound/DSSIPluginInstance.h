@@ -22,7 +22,10 @@
 #include <QString>
 #include "base/Instrument.h"
 
+#if __linux__
 #include "dssi.h"
+#endif
+
 #include "RingBuffer.h"
 #include "RunnablePluginInstance.h"
 #include "Scavenger.h"
@@ -36,7 +39,13 @@ class DSSIPluginInstance : public RunnablePluginInstance
 public:
     ~DSSIPluginInstance() override;
 
-    bool isOK() const override { return m_instanceHandle != nullptr; }
+    bool isOK() const override {
+#if __linux__
+        return m_instanceHandle != nullptr;
+#else
+        return false;
+#endif
+    }
 
     InstrumentId getInstrument() const { return m_instrument; }
     QString getIdentifier() const override { return m_identifier; }
@@ -76,7 +85,9 @@ public:
 
 protected:
     // To be constructed only by DSSIPluginFactory
+#if __linux__
     friend class DSSIPluginFactory;
+#endif
 
     // Constructor that creates the buffers internally
     // 
@@ -86,8 +97,11 @@ protected:
                        int position,
                        unsigned long sampleRate,
                        size_t blockSize,
-                       int idealChannelCount,
-                       const DSSI_Descriptor* descriptor);
+                       int idealChannelCount
+#if __linux__
+                       ,const DSSI_Descriptor* descriptor
+#endif
+                       );
     
     // Constructor that uses shared buffers
     // 
@@ -98,8 +112,12 @@ protected:
                        unsigned long sampleRate,
                        size_t blockSize,
                        sample_t **inputBuffers,
-                       sample_t **outputBuffers,
-                       const DSSI_Descriptor* descriptor);
+                       sample_t **outputBuffers
+#if __linux__
+                       ,const DSSI_Descriptor* descriptor
+#endif
+                       );
+
 
     void init();
     void instantiate(unsigned long sampleRate);
@@ -108,7 +126,10 @@ protected:
     void deactivate();
     void connectPorts();
 
+#if __linux__
     bool handleController(snd_seq_event_t *ev);
+#endif
+
     void setPortValueFromController(unsigned int portNumber, int controlValue);
     void selectProgramAux(QString program, bool backupPortValues);
     void checkProgramCache();
@@ -118,13 +139,15 @@ protected:
 
     InstrumentId   m_instrument;
     int                        m_position;
+#if __linux__
     LADSPA_Handle              m_instanceHandle;
     const DSSI_Descriptor     *m_descriptor;
 
     std::vector<std::pair<unsigned long, LADSPA_Data*> > m_controlPortsIn;
     std::vector<std::pair<unsigned long, LADSPA_Data*> > m_controlPortsOut;
-
     std::vector<LADSPA_Data>  m_backupControlPortsIn;
+#endif
+
     std::vector<bool>  m_portChangedSinceProgramChange;
 
     std::map<int, int>        m_controllerMap;
@@ -147,7 +170,9 @@ protected:
     std::vector<ProgramDescriptor> m_cachedPrograms;
     bool m_programCacheValid;
 
+#if __linux__
     RingBuffer<snd_seq_event_t> m_eventBuffer;
+#endif
 
     size_t                    m_blockSize;
     sample_t                **m_inputBuffers;
@@ -171,10 +196,17 @@ protected:
     typedef std::set<DSSIPluginInstance *> PluginSet;
     typedef std::map<QString, PluginSet> GroupMap;
     static GroupMap m_groupMap;
+
+#if __linux__
     static snd_seq_event_t **m_groupLocalEventBuffers;
+#endif
+
     static size_t m_groupLocalEventBufferCount;
 
+#if __linux__
     static Scavenger<ScavengerArrayWrapper<snd_seq_event_t *> > m_bufferScavenger;
+#endif
+
 };
 
 };
