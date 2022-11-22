@@ -3,6 +3,7 @@
 [![CI Ubuntu](https://github.com/bownie/rosegarden-official/actions/workflows/ci.yml/badge.svg)](https://github.com/bownie/rosegarden-official/actions/workflows/ci.yml)
 [![CI Windows](https://github.com/bownie/rosegarden-official/actions/workflows/ci-windows.yml/badge.svg)](https://github.com/bownie/rosegarden-official/actions/workflows/ci-windows.yml)
 [![CI Mac](https://github.com/bownie/rosegarden-official/actions/workflows/ci-mac.yml/badge.svg)](https://github.com/bownie/rosegarden-official/actions/workflows/ci-mac.yml)
+[![Sonarcloud](https://github.com/bownie/rosegarden-official/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/bownie/rosegarden-official/actions/workflows/sonarcloud.yml)
 
 # Introduction
 

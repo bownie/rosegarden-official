@@ -5,10 +5,8 @@ env:
   
 on:
   workflow_dispatch:
-  push:
-    paths-ignore:
-      - '.github/workflows/**'
-      - 'README.*'
+  schedule:
+    - cron: "0 0 * * 6"
 
 jobs:
   build:
