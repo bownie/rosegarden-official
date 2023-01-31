@@ -5,6 +5,7 @@ Build Status
 [![CI Windows](https://github.com/bownie/rosegarden-official/actions/workflows/ci-windows.yml/badge.svg)](https://github.com/bownie/rosegarden-official/actions/workflows/ci-windows.yml)
 [![CI Mac](https://github.com/bownie/rosegarden-official/actions/workflows/ci-mac.yml/badge.svg)](https://github.com/bownie/rosegarden-official/actions/workflows/ci-mac.yml)
 [![Sonarcloud](https://github.com/bownie/rosegarden-official/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/bownie/rosegarden-official/actions/workflows/sonarcloud.yml)
+[![codecov](https://codecov.io/gh/bownie/rosegarden-official/branch/master/graph/badge.svg?token=2LMN45THGW)](https://codecov.io/gh/bownie/rosegarden-official)
 
 Introduction
 ============
