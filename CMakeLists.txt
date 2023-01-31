@@ -16,10 +16,8 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
     include(CodeCoverage)
 
-    SET(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
-    SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
-
-    setup_target_for_coverage(${PROJECT_NAME}_coverage ${TEST_TARGET} coverage)
+    append_coverage_compiler_flags()
+    setup_target_for_coverage_gcovr_xml(${PROJECT_NAME}_coverage ${TEST_TARGET} coverage)
 endif() #CMAKE_BUILD_TYPE STREQUAL "Coverage"
 
 
