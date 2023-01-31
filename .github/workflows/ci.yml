@@ -36,7 +36,7 @@ jobs:
 
     - name: Run build
       run: |
-        export MAKEFLAGS="-j `nproc`"
+        export MAKEFLAGS="-j `nproc` -fprofile-arcs -ftest-coverage"
         mkdir build
         cd build
         echo "Running cmake"
@@ -47,3 +47,9 @@ jobs:
     - name: Tests
       run: |
         make test
+         
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        gcov: true
+        gcov_include: calculator.c
