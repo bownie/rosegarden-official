@@ -22,9 +22,8 @@ endif()
 link_directories(/usr/local/lib)
 
 # Version
-set(ROSEGARDEN_VERSION "22.12")
-set(ROSEGARDEN_CODENAME "Enchantress")
-#set(ROSEGARDEN_CODENAME "Flutterbye")
+set(ROSEGARDEN_VERSION "23.06")
+set(ROSEGARDEN_CODENAME "Flutterbye")
 #set(ROSEGARDEN_CODENAME "Grace Note")
 #set(ROSEGARDEN_CODENAME "Hermosa")
 #set(ROSEGARDEN_CODENAME "Incredible")
@@ -237,7 +236,7 @@ set(CPPCHECK_OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/cppcheck.out)
 # dummy_file will never exist so "make cppcheck" always runs cppcheck
 
 add_custom_command(OUTPUT ${CPPCHECK_OUTPUT} dummy_file
-  COMMAND cppcheck cppcheck --enable=all --inconclusive --std=c++11 --inline-suppr --quiet ${CMAKE_CURRENT_SOURCE_DIR}/src >& ${CPPCHECK_OUTPUT})
+  COMMAND cppcheck --force --enable=all --inconclusive --std=c++11 --inline-suppr --quiet ${CMAKE_CURRENT_SOURCE_DIR}/src >& ${CPPCHECK_OUTPUT})
 
 add_custom_target(cppcheck DEPENDS ${CPPCHECK_OUTPUT} dummy_file)
 #########################
