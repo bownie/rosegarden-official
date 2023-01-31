@@ -16,8 +16,17 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
     include(CodeCoverage)
 
+    # setup_target_for_coverage_gcovr_xml(
+#     NAME ctest_coverage                    # New target name
+#     EXECUTABLE ctest -j ${PROCESSOR_COUNT} # Executable in PROJECT_BINARY_DIR
+#     DEPENDENCIES executable_target         # Dependencies to build first
+#     BASE_DIRECTORY "../"                   # Base directory for report
+#                                            #  (defaults to PROJECT_SOURCE_DIR)
+#     EXCLUDE "src/dir1/*" "src/dir2/*"      # Patterns to exclude (can be relative
+#                                            #  to BASE_DIRECTORY, with CMake 3.4+)
+
     append_coverage_compiler_flags()
-    setup_target_for_coverage_gcovr_xml(${PROJECT_NAME}_coverage ${TEST_TARGET} coverage)
+    setup_target_for_coverage_gcovr_xml(NAME ${PROJECT_NAME}_coverage EXECUTABLE ${PROJECT_NAME})
 endif() #CMAKE_BUILD_TYPE STREQUAL "Coverage"
 
 
