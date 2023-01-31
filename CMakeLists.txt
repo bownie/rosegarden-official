@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 3.1)
 # Project name
 project(rosegarden)
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
+set(CMAKE_MODULE_PATH ${${PROJECT_SOURCE_DIR}/cmake)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
     include(CodeCoverage)
