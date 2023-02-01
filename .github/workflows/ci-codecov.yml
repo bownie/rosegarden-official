@@ -47,7 +47,11 @@ jobs:
 
     - name: Tests
       run: |
-        make test
+        mkdir build-test
+        cd build-test
+        echo "Running tests"
+        cmake .. -DCMAKE_BUILD_TYPE=Coverage
+        make
          
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
