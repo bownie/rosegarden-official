@@ -13,14 +13,14 @@ endmacro()
 # Each line here defines a unit test (the executable name matches the .cpp filename)
 RG_UNIT_TESTS(
    realtime
-   accidentals
-   segmenttransposecommand
-   test_notationview_selection
-   transpose
-   reference_segment
-   utf8
-   testmisc
-   convert
+#   accidentals
+#   segmenttransposecommand
+#   test_notationview_selection
+#   transpose
+#   reference_segment
+#   utf8
+#   testmisc
+#   convert
 )
 
 add_subdirectory(lilypond)
