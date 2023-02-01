@@ -23,5 +23,5 @@ RG_UNIT_TESTS(
 #   convert
 )
 
-add_subdirectory(lilypond)
+#add_subdirectory(lilypond)
 

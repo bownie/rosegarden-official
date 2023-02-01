@@ -31,11 +31,12 @@ private Q_SLOTS:
 
 void TestRealTime::test()
 {
-    //qDebug() << "Testing!\n";
+    qDebug() << "Testing!\n";
 
     RealTime rt;
 
     QCOMPARE(rt.sec, 0);
+    QVERIFY(RealTime(1, 123000000) < RealTime(2, 456000000));
 /*    QCOMPARE(rt.nsec, 0);
     QCOMPARE(rt.toSeconds(), 0.0);
     QCOMPARE(rt, RealTime::zeroTime);
