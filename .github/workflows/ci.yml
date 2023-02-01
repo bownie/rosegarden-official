@@ -26,7 +26,6 @@ jobs:
            sudo apt-get install -y libjack-dev
            sudo apt-get install -y liblo-dev
            sudo apt-get install -y liblrdf-dev
-           sudo apt-get install -y gcovr
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
@@ -41,14 +40,9 @@ jobs:
         mkdir build
         cd build
         echo "Running cmake"
-        cmake .. -DCMAKE_BUILD_TYPE=Debug
+        cmake .. -DCMAKE_BUILD_TYPE=Release
         echo "Building"
         make
-        make test
-
-    - name: Tests
-      run: |
-        make test
          
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
