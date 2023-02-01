@@ -42,6 +42,7 @@ jobs:
         cd build-test
         echo "Building and Running tests"
         cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON
+        make
         make test
          
     - name: Upload coverage to Codecov

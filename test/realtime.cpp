@@ -26,18 +26,17 @@ class TestRealTime : public QObject
 
 private Q_SLOTS:
     void test();
-    //void testFrameConversion();
+    void testFrameConversion();
 };
 
 void TestRealTime::test()
 {
-    qDebug() << "Testing!\n";
+    //qDebug() << "Testing!\n";
 
     RealTime rt;
 
     QCOMPARE(rt.sec, 0);
-    QVERIFY(RealTime(1, 123000000) < RealTime(2, 456000000));
-/*    QCOMPARE(rt.nsec, 0);
+    QCOMPARE(rt.nsec, 0);
     QCOMPARE(rt.toSeconds(), 0.0);
     QCOMPARE(rt, RealTime::zeroTime);
     QCOMPARE(rt.usec(), 0);
@@ -108,10 +107,10 @@ void TestRealTime::test()
     QVERIFY(RealTime(2, 456000000) != RealTime(2, 123000000));
     QVERIFY(RealTime(327834, 120398123) == RealTime(327834, 120398123));
     QVERIFY(RealTime(327834, 120398123) >= RealTime(327834, 120398123));
-    QVERIFY(RealTime(327834, 120398123) <= RealTime(327834, 120398123));*/
+    QVERIFY(RealTime(327834, 120398123) <= RealTime(327834, 120398123));
 
 }
-/*
+
 namespace
 {
     bool checkFrameConversion(int frame, int rate)
@@ -122,8 +121,7 @@ namespace
         return (testframe == frame);
     }
 }
-*/
-/*
+
 // Harvested from older test code
 void TestRealTime::testFrameConversion()
 {
@@ -142,7 +140,7 @@ void TestRealTime::testFrameConversion()
             QVERIFY(checkFrameConversion(v * rate + v, rate));
         }
     }
-}*/
+}
 
 QTEST_MAIN(TestRealTime)
 
