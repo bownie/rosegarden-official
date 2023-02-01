@@ -40,9 +40,10 @@ jobs:
         export MAKEFLAGS="-j `nproc`"
         mkdir build-test
         cd build-test
-        echo "Running tests"
-        cmake ../test -DCMAKE_BUILD_TYPE=Coverage
+        echo "Building and Running tests"
+        cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON
         make
+        make test
          
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3

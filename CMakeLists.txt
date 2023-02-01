@@ -31,10 +31,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     message("BUILD_TESTING is OFF")
 else()
     option(BUILD_TESTING "Build the testing tree." ON)
-    message(("BUILD_TESTING is ON"))
+    message("BUILD_TESTING is ON")
 endif()
 
-if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message("COVERAGE IS ON")
     include(CodeCoverage)
 
     # setup_target_for_coverage_gcovr_xml(
