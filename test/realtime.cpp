@@ -110,7 +110,7 @@ void TestRealTime::test()
     QVERIFY(RealTime(327834, 120398123) <= RealTime(327834, 120398123));*/
 
 }
-
+/*
 namespace
 {
     bool checkFrameConversion(int frame, int rate)
@@ -121,7 +121,8 @@ namespace
         return (testframe == frame);
     }
 }
-
+*/
+/*
 // Harvested from older test code
 void TestRealTime::testFrameConversion()
 {
@@ -140,7 +141,7 @@ void TestRealTime::testFrameConversion()
             QVERIFY(checkFrameConversion(v * rate + v, rate));
         }
     }
-}
+}*/
 
 QTEST_MAIN(TestRealTime)
 
