@@ -1,7 +1,10 @@
 name: CI Ubuntu Codecoverage
 
+# Set QT_QPA_PLATFORM for headless testing
+#
 env:
-  QT_VERSION:     "5.15.2"
+  QT_VERSION:      "5.15.2"
+  QT_QPA_PLATFORM: "offscreen"
   
 on:
   workflow_dispatch:
