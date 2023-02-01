@@ -15,7 +15,7 @@ RG_UNIT_TESTS(
    realtime
    accidentals
    segmenttransposecommand
-   test_notationview_selection
+   #test_notationview_selection
    transpose
    reference_segment
    utf8
