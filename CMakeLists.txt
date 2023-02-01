@@ -1,6 +1,14 @@
 # CMake version required. This must be the very first line, because it sets default policies affecting everything else
 cmake_minimum_required(VERSION 3.1)
 
+# Project name
+project(rosegarden)
+
+# Make the build type default to "Release"
+if(NOT CMAKE_BUILD_TYPE)
+    message(STATUS "Defaulting build type to Release")
+   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
+endif(NOT CMAKE_BUILD_TYPE)
 
 # Force to build for x86 and use rosetta
 #if (APPLE)
@@ -8,9 +16,8 @@ cmake_minimum_required(VERSION 3.1)
 #    message("Building for x86_64 on M1")
 #endif()
 
-# Project name
-project(rosegarden)
-
+# Append cmake modules
+#
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # Activate unit tests (this enables `make test`)
@@ -21,10 +28,11 @@ enable_testing()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     option(BUILD_TESTING "Build the testing tree." OFF)
+    message("BUILD_TESTING is OFF")
 else()
     option(BUILD_TESTING "Build the testing tree." ON)
+    message(("BUILD_TESTING is ON"))
 endif()
-
 
 if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
     include(CodeCoverage)
@@ -77,10 +85,6 @@ set(ROSEGARDEN_CODENAME "Flutterbye")
 #set(ROSEGARDEN_CODENAME "Yellow Brick Road")
 #set(ROSEGARDEN_CODENAME "Zaïd")
 
-# Make the build type default to "Release"
-if(NOT CMAKE_BUILD_TYPE)
-   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
-endif(NOT CMAKE_BUILD_TYPE)
 
 # Make it possible to use cmake files from the cmake subdir
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
