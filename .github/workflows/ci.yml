@@ -26,6 +26,7 @@ jobs:
            sudo apt-get install -y libjack-dev
            sudo apt-get install -y liblo-dev
            sudo apt-get install -y liblrdf-dev
+           sudo apt-get install -y gcovr
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
