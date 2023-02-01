@@ -43,6 +43,7 @@ jobs:
         cmake .. -DCMAKE_BUILD_TYPE=Debug
         echo "Building"
         make
+        make test
 
     - name: Tests
       run: |
