@@ -13,6 +13,19 @@ project(rosegarden)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
+# Activate unit tests (this enables `make test`)
+enable_testing()
+# then define the BUILD_TESTING option, with the default value that we want
+# We'll set it to OFF in release mode, and let users (developers) choose in debug mode.
+# include(CTest) would make it ON by default in all cases, so we don't use that
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    option(BUILD_TESTING "Build the testing tree." OFF)
+else()
+    option(BUILD_TESTING "Build the testing tree." ON)
+endif()
+
+
 if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
     include(CodeCoverage)
 
@@ -85,18 +98,6 @@ include(GNUInstallDirs)
 
 # Tweak RPATH handling so that installed debug builds work out of the box
 include(RPathHandling)
-
-# Activate unit tests (this enables `make test`)
-enable_testing()
-# then define the BUILD_TESTING option, with the default value that we want
-# We'll set it to OFF in release mode, and let users (developers) choose in debug mode.
-# include(CTest) would make it ON by default in all cases, so we don't use that
-
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    option(BUILD_TESTING "Build the testing tree." OFF)
-else()
-    option(BUILD_TESTING "Build the testing tree." ON)
-endif()
 
 # Compiler defines
 
@@ -193,7 +194,6 @@ pkg_check_modules(SAMPLERATE REQUIRED samplerate>=0.1.2)
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     find_package(X11 REQUIRED) # for XSetErrorHandler & XGetErrorText
 endif()
-
 
 # Optional dependencies ---------------------------------------
 
